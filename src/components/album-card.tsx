@@ -24,7 +24,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
   const navigate = useNavigate();
 
   const handleOpenArtist = useCallback(() => {
-    if (album.artist?.id) navigate(`/artists/${album.artist.id}`);
+    if (album.artist?.id) navigate(`/artists/${album.artist.id}/`);
   }, [album]);
 
   if (variant === "large")
