@@ -6,20 +6,18 @@ import { useDispatch } from "store";
 import { Helmet } from "react-helmet";
 import FeaturedAlbums from "features/home/featured-albums";
 import useLoading from "hooks/useLoading";
+import { useSelector } from "react-redux";
+import { selectCharts } from "store/selectors/charts";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { setLoading } = useLoading();
+  const { loading } = useSelector(selectCharts);
+  
+  useLoading(loading);
 
   useEffect(() => {
-    setLoading(true);
-    dispatch(reduxGetCharts()).finally(() => {
-      setLoading(false);
-    });
+    dispatch(reduxGetCharts());
   }, []);
-
-
-
 
   return (
     <Container>

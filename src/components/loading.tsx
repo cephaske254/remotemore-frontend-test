@@ -1,14 +1,15 @@
 import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Logo from "./logo";
 
 const Loading: React.FC<LoadingProps> = ({ loading }) => {
   return (
-    <>
       <RootStyles open={loading}>
-        <Logo />
+        <Box>
+          <Logo />
+        </Box>
       </RootStyles>
-    </>
   );
 };
 
