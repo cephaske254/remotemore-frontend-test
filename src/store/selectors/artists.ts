@@ -9,5 +9,10 @@ export const selectArtistDetails = (id: string | number) =>
       loading: false,
     };
 
-    return details;
+    return {
+      ...details,
+      loading: details.loading === true && !details.data?.artist?.id,
+      error: details.loading === "error",
+      refreshing: details.loading === true && !!details.data?.artist?.id,
+    };
   });

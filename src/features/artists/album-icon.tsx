@@ -1,4 +1,4 @@
-const AlbumIcon = () => (
+const AlbumIcon: React.FC<React.ComponentProps<"svg">> = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -10,6 +10,7 @@ const AlbumIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="feather feather-disc"
+    {...props}
   >
     <circle cx="12" cy="12" r="10"></circle>
     <circle cx="12" cy="12" r="3"></circle>

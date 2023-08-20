@@ -1,12 +1,18 @@
-import { Track } from "./tracks";
+import { Track, TrackAlbum } from "./tracks";
 
 export interface ArtistDetailResponse {
-  top: Top;
+  tracks: TopTracks;
   artist: ArtistDetail;
+  albums: ArtistAlbums;
 }
 
-export interface Top {
+export interface TopTracks {
   data: Track[];
+  total: number;
+  next: string;
+}
+export interface ArtistAlbums {
+  data: TrackAlbum[];
   total: number;
   next: string;
 }

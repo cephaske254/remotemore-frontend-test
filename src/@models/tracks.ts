@@ -12,6 +12,12 @@ export interface TrackAlbum {
   id: number;
   title: string;
   cover: string;
+  stats: AlbumStats | null;
+}
+
+export interface AlbumStats {
+  fans: number;
+  release_date: string;
 }
 
 export interface TrackArtist {
