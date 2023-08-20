@@ -13,6 +13,7 @@ export interface TrackAlbum {
   title: string;
   cover: string;
   stats: AlbumStats | null;
+  artist?: TrackArtist;
 }
 
 export interface AlbumStats {

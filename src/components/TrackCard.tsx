@@ -5,7 +5,8 @@ import Typography from "@mui/material/Typography";
 import { Track } from "@models/tracks";
 import { getFont } from "theme/fonts";
 import { fDuration } from "utils/formatNumber";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCallback } from "react";
 
 const IMAGE_SIZE = 50;
 
@@ -13,13 +14,20 @@ const TrackCard: React.FC<TrackCardProps> = ({ track }) => {
   const bgImage = track.album.cover || track.artist.image;
 
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const openArtistDetail = () => {
+  const openArtistDetail = useCallback(() => {
+    if (!track.artist?.id || (id && id == track.artist.id?.toString())) return;
     navigate(`/artists/${track.artist.id}/`);
-  };
+  }, [id, track.artist]);
 
   return (
-    <RootStyles spacing={2} direction="row">
+    <RootStyles
+      spacing={2}
+      direction="row"
+      style={{ cursor: "pointer" }}
+      onClick={openArtistDetail}
+    >
       <Image style={{ backgroundImage: `url(${bgImage})` }} />
       <Box flex={1}>
         <Typography variant="body2" component="p">
@@ -31,7 +39,6 @@ const TrackCard: React.FC<TrackCardProps> = ({ track }) => {
             variant="caption"
             {...getFont("poppins", "semiBold")}
             color="grey.800"
-            onClick={openArtistDetail}
           >
             {track.artist.name}
           </Typography>
@@ -50,7 +57,6 @@ const TrackCard: React.FC<TrackCardProps> = ({ track }) => {
 };
 
 type TrackCardProps = {
-  index: number;
   track: Track;
 };
 

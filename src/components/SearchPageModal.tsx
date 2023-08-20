@@ -2,22 +2,30 @@ import MUIModal, { ModalProps } from "@mui/material/Modal";
 import { alpha, styled } from "@mui/material/styles";
 import useIsSearching from "hooks/useIsSearching";
 import useNavbar from "hooks/useNavbar";
+import { Helmet } from "react-helmet";
 
 const HashPagePaper = ({ children, ...props }: Omit<ModalProps, "open">) => {
   const { isSearching, toggleSearch } = useIsSearching();
   const { padding } = useNavbar();
 
   return (
-    <Modal
-      open={isSearching}
-      navbarHeight={padding}
-      {...props}
-      disablePortal
-      disableEnforceFocus
-      onClose={toggleSearch}
-    >
-      {children}
-    </Modal>
+    <>
+      {isSearching && (
+        <Helmet>
+          <title>Search</title>
+        </Helmet>
+      )}
+      <Modal
+        open={isSearching}
+        navbarHeight={padding}
+        {...props}
+        disablePortal
+        disableEnforceFocus
+        onClose={toggleSearch}
+      >
+        {children}
+      </Modal>
+    </>
   );
 };
 
@@ -33,8 +41,8 @@ const Modal = styled(MUIModal, {
   bottom: 0,
   zIndex: 2,
   background: alpha(theme.palette.common.dark, 0.2),
-  backdropFilter: "blur(20px) saturate(150%)",
-  WebkitBackdropFilter: "blur(20px) saturate(150%)",
+  backdropFilter: "blur(6px)",
+  WebkitBackdropFilter: "blur(6px)",
   paddingTop: `${navbarHeight}px`,
 
   "& .MuiModal-backdrop": {

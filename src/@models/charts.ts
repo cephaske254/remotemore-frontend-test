@@ -1,10 +1,6 @@
-import { Track } from "./tracks";
+import { Track, TrackAlbum } from "./tracks";
 
 export type ChartsResponse = {
-  tracks: PaginatedCharts<Track>;
-};
-
-type PaginatedCharts<T> = {
-  data: T[];
-  total: number;
+  tracks: PaginatedData<Track>;
+  albums: PaginatedData<TrackAlbum>;
 };

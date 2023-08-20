@@ -1,11 +1,12 @@
 import { styled } from "@mui/material/styles";
 import Modal from "@mui/material/Modal";
+import Logo from "./logo";
 
 const Loading: React.FC<LoadingProps> = ({ loading }) => {
   return (
     <>
       <RootStyles open={loading}>
-        <div>Loading...</div>
+        <Logo />
       </RootStyles>
     </>
   );

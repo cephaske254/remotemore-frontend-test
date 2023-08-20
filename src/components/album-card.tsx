@@ -2,7 +2,6 @@ import { TrackAlbum } from "@models/tracks";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -12,20 +11,36 @@ import { alpha } from "@mui/system";
 import { getFont } from "theme/fonts";
 import UsersIcon from "features/artists/users-icon";
 import { fShortenNumber } from "utils/formatNumber";
+import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ALBUM_SIZE = 100;
+const DEFAULT_ALBUM_ART = "/album.jpeg";
 
 const AlbumCard: React.FC<AlbumCardProps> = ({
   album,
   variant = "default",
 }) => {
-  if (variant === "large") return <LargeAlbumCard album={album} />;
+  const navigate = useNavigate();
+
+  const handleOpenArtist = useCallback(() => {
+    if (album.artist?.id) navigate(`/artists/${album.artist.id}`);
+  }, [album]);
+
+  if (variant === "large")
+    return <LargeAlbumCard album={album} onClick={handleOpenArtist} />;
 
   return (
-    <Card elevation={0}>
+    <RootStyles elevation={0} onClick={handleOpenArtist}>
       <CardContent component={Stack} direction="row" spacing={2}>
         <CardMedia>
-          <Image style={{ backgroundImage: `url('${album.cover}')` }} />
+          <Image
+            style={{
+              backgroundImage: `url('${
+                album.cover ?? album.artist?.image ?? DEFAULT_ALBUM_ART
+              }')`,
+            }}
+          />
         </CardMedia>
         <Stack flex={1} justifyContent="space-evenly" pb={2} pt={2} spacing={1}>
           <Typography variant="subtitle1" color="grey.800">
@@ -39,13 +54,13 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
           <RenderFans {...{ album, large: false }} />
         </Stack>
       </CardContent>
-    </Card>
+    </RootStyles>
   );
 };
 
-const LargeAlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
+const LargeAlbumCard: React.FC<AlbumCardProps> = ({ album, onClick }) => {
   return (
-    <Card
+    <RootStyles
       variant="outlined"
       sx={({ palette }) => ({
         background: alpha(palette.common.white, 0.3),
@@ -53,6 +68,7 @@ const LargeAlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
         borderRadius: 3,
         height: "100%",
       })}
+      onClick={onClick}
     >
       <CardContent
         component={Stack}
@@ -65,7 +81,14 @@ const LargeAlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
           lg: "center",
         }}
       >
-        <Image large style={{ backgroundImage: `url(${album.cover})` }} />
+        <Image
+          large
+          style={{
+            backgroundImage: `url(${
+              album.cover ?? album.artist?.image ?? DEFAULT_ALBUM_ART
+            })`,
+          }}
+        />
 
         <Stack
           flex={1}
@@ -97,7 +120,7 @@ const LargeAlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
           <RenderFans {...{ album, large: true }} />
         </Stack>
       </CardContent>
-    </Card>
+    </RootStyles>
   );
 };
 
@@ -123,6 +146,10 @@ const RenderFans: React.FC<{ album: TrackAlbum; large: boolean }> = ({
   );
 };
 
+const RootStyles = styled(Card)(() => ({
+  cursor: "pointer",
+}));
+
 const Image = styled(Box, {
   shouldForwardProp: (prop) => prop !== "large",
 })<{
@@ -133,6 +160,7 @@ const Image = styled(Box, {
       height: ALBUM_SIZE,
       width: ALBUM_SIZE,
       borderRadius: spacing(1),
+      backgroundPosition: "center",
     };
 
   const size = ALBUM_SIZE * 1.5;
@@ -141,6 +169,7 @@ const Image = styled(Box, {
     width: size,
     borderRadius: spacing(1),
     boxShadow: customShadows.z8,
+    backgroundPosition: "center",
 
     [breakpoints.up("lg")]: {
       height: ALBUM_SIZE * 2,
@@ -151,6 +180,7 @@ const Image = styled(Box, {
 export type AlbumCardProps = {
   album: TrackAlbum;
   variant?: "default" | "large";
+  onClick?: VoidFunction;
 };
 
 export default AlbumCard;

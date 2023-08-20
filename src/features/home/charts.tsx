@@ -8,26 +8,26 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import { getFont } from "theme/fonts";
-import { useEffect } from "react";
-import { reduxGetCharts } from "store/actions/chart";
-import { useDispatch } from "store";
+
 import { useSelector } from "react-redux";
 import { selectCharts } from "store/selectors/charts";
-import { fDuration, fPadNumber } from "utils/formatNumber";
-import { styled } from "@mui/material/styles";
+import {  fPadNumber } from "utils/formatNumber";
 import FeaturedArtist from "./featured-artist";
 import { MIN_HEIGHT } from "./constants";
+import useLoading from "hooks/useLoading";
+import TrackCard from "components/TrackCard";
+import Box from "@mui/material/Box";
 
-const headings = ["#", "Track Name", "Artist", "Duration"];
+const headings = [
+  "#",
+  "",
+];
 
 const HomeScreenCharts = () => {
-  const dispatch = useDispatch();
   const { charts, loading } = useSelector(selectCharts);
   const { data } = charts?.tracks ?? { data: [], loading: false };
 
-  useEffect(() => {
-    dispatch(reduxGetCharts());
-  }, []);
+  useLoading(loading);
 
   return (
     <Paper elevation={0} sx={{ my: 3, p: 2 }}>
@@ -63,7 +63,12 @@ const HomeScreenCharts = () => {
           </Typography>
 
           <TableContainer>
-            <Table size="small" stickyHeader sx={{ minHeight: 400 }}>
+            <Table
+              size="small"
+              stickyHeader
+              sx={{ minHeight: 400 }}
+              padding="none"
+            >
               <TableHead>
                 <TableRow>
                   {headings.map((heading) => (
@@ -78,22 +83,9 @@ const HomeScreenCharts = () => {
                   <TableRow key={index}>
                     <TableCell>{fPadNumber(index + 1)}</TableCell>
                     <TableCell>
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        <Image src={track.album.cover} />
-                        <Typography variant="subtitle2" color="grey.800">
-                          {track.title_short}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2" color="grey.700">
-                        {track.artist.name}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2" color="grey.700">
-                        {fDuration(track.stats.duration)}
-                      </Typography>
+                      <Box sx={{ padding: 0 }}>
+                        <TrackCard {...{ track }} />
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -108,10 +100,5 @@ const HomeScreenCharts = () => {
   );
 };
 
-const Image = styled("img")(() => ({
-  height: 45,
-  width: 45,
-  borderRadius: 6,
-}));
 
 export default HomeScreenCharts;

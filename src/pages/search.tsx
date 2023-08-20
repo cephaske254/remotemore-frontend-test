@@ -19,6 +19,7 @@ const SearchPage = () => {
   const valueRef = useRef("");
   const dispatch = useDispatch();
 
+
   const performSearch = useCallback(() => {
     if (!q || (q.trim() !== valueRef.current.trim() && loading !== "error")) {
       dispatch(reduxSearchItems({ query: valueRef.current }));

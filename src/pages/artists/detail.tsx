@@ -12,6 +12,7 @@ import ArtistTopTracks from "features/artists/artist-top-tracks";
 import useLoading from "hooks/useLoading";
 import ArtistTopAlbums from "features/artists/artist-top-albums";
 import AlbumCard from "components/album-card";
+import { Helmet } from "react-helmet";
 
 const ArtistDetail = () => {
   const { id } = useParams();
@@ -37,6 +38,10 @@ const ArtistDetail = () => {
   return (
     <Container>
       <ArtistHeader {...{ artist }} />
+
+      <Helmet>
+        <title>{artist.name}</title>
+      </Helmet>
 
       <Grid container sx={{ mt: 4 }} spacing={4}>
         <Grid item xs={12} md={12} lg={7}>
