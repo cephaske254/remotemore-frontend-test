@@ -11,23 +11,19 @@ import { getFont } from "theme/fonts";
 
 import { useSelector } from "react-redux";
 import { selectCharts } from "store/selectors/charts";
-import {  fPadNumber } from "utils/formatNumber";
+import { fPadNumber } from "utils/formatNumber";
 import FeaturedArtist from "./featured-artist";
 import { MIN_HEIGHT } from "./constants";
-import useLoading from "hooks/useLoading";
 import TrackCard from "components/TrackCard";
 import Box from "@mui/material/Box";
 
-const headings = [
-  "#",
-  "",
-];
+const headings = ["#", ""];
 
 const HomeScreenCharts = () => {
   const { charts, loading } = useSelector(selectCharts);
   const { data } = charts?.tracks ?? { data: [], loading: false };
 
-  useLoading(loading);
+  if (loading) return null;
 
   return (
     <Paper elevation={0} sx={{ my: 3, p: 2 }}>
@@ -99,6 +95,5 @@ const HomeScreenCharts = () => {
     </Paper>
   );
 };
-
 
 export default HomeScreenCharts;

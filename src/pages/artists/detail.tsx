@@ -35,8 +35,10 @@ const ArtistDetail = () => {
 
   if (!artist) return null;
 
+  const total = data?.albums?.total ?? 0;
+
   return (
-    <Container>
+    <Container sx={{ pb: 4}}>
       <ArtistHeader {...{ artist }} />
 
       <Helmet>
@@ -49,34 +51,34 @@ const ArtistDetail = () => {
         </Grid>
 
         <Grid item xs={12} md={12} lg={5}>
-          <ArtistTopAlbums
-            {...{ albums: top_albums, total: data?.albums?.total ?? 0 }}
-          />
+          <ArtistTopAlbums {...{ albums: top_albums, total }} />
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          marginTop: {
-            md: 3,
-          },
-        }}
-        spacing={3}
-        id="albums"
-      >
-        <Grid item xs={12}>
-          <Typography variant="h6" color="grey.800">
-            Albums
-          </Typography>
-        </Grid>
-
-        {albums.map((album, index) => (
-          <Grid item xs={12} md={12} lg={4} key={album.id ?? index}>
-            <AlbumCard variant="large" {...{ album }} />
+      {total > 0 && (
+        <Grid
+          container
+          sx={{
+            marginTop: {
+              md: 3,
+            },
+          }}
+          spacing={3}
+          id="albums"
+        >
+          <Grid item xs={12}>
+            <Typography variant="h6" color="grey.800">
+              Albums
+            </Typography>
           </Grid>
-        ))}
-      </Grid>
+
+          {albums.map((album, index) => (
+            <Grid item xs={12} md={12} lg={4} key={album.id ?? index}>
+              <AlbumCard variant="large" {...{ album }} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Container>
   );
 };

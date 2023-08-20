@@ -7,8 +7,10 @@ import { selectCharts } from "store/selectors/charts";
 import AlbumCard from "components/album-card";
 
 const FeaturedAlbums = () => {
-  const { charts } = useSelector(selectCharts);
+  const { charts, loading } = useSelector(selectCharts);
   const albums = charts?.albums?.data ?? [];
+
+  if (loading) return null
 
   return (
     <Paper elevation={0} sx={{ my: 3, p: 2 }}>

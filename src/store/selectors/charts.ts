@@ -6,6 +6,7 @@ export const selectCharts = createDraftSafeSelector(
   selectChartsState,
   (state) => ({
     ...state,
-    loading: false,
+    loading: state.loading === true && !state.charts,
+    refreshing: state.loading === true && !!state.charts,
   })
 );
