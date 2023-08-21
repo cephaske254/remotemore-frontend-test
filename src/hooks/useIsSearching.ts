@@ -12,7 +12,7 @@ const useIsSearching = () => {
   const toggleSearch = useCallback(() => {
     if (isSearching) navigate(pathname);
     else navigate(`${pathname}#search`);
-  }, [isSearching, navigate]);
+  }, [isSearching, navigate, pathname]);
 
   return { isSearching, toggleSearch, navigate, hash };
 };
